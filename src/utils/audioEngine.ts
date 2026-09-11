@@ -314,6 +314,15 @@ class CinematicAudioEngine {
     }
   }
 
+  public setDucking(ducked: boolean) {
+    if (this.audioCtx && this.masterGain) {
+      const now = this.audioCtx.currentTime;
+      const targetVol = ducked ? 0.2 : (this.isMuted ? 0 : this.volume);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
+      this.masterGain.gain.linearRampToValueAtTime(targetVol, now + 1.2);
+    }
+  }
+
   public toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.audioCtx && this.masterGain) {

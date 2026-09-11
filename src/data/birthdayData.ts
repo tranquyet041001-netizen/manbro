@@ -12,13 +12,12 @@ export interface TimelineItem {
 export interface MemoryItem {
   id: string;
   title: string;
-  category: "BROTHERHOOD" | "MILESTONES" | "ADVENTURE" | "FOCUS";
   year: string;
+  location: string;
   image: string;
   caption: string;
-  isVideo?: boolean;
-  videoSrc?: string;
-  aspectRatio?: "landscape" | "portrait" | "square";
+  scale?: "large" | "medium" | "small";
+  offset?: "top" | "bottom" | "center";
 }
 
 export interface ValueItem {
@@ -26,7 +25,6 @@ export interface ValueItem {
   title: string;
   subtitle: string;
   description: string;
-  iconName: "courage" | "discipline" | "loyalty" | "ambition" | "family" | "dreams";
   number: string;
 }
 
@@ -34,16 +32,15 @@ export interface AchievementItem {
   id: string;
   value: string;
   numericTarget?: number;
+  suffix?: string;
   label: string;
   description: string;
-  suffix?: string;
 }
 
 export interface FutureStage {
   id: string;
-  phase: "NOW" | "NEXT" | "FUTURE";
+  phase: "NOW" | "NEXT" | "SOMEDAY";
   title: string;
-  period: string;
   goal: string;
   dream: string;
   destination: string;
@@ -54,26 +51,29 @@ export interface BirthdayData {
   name: string;
   fullName: string;
   age: number;
-  birthDate: string;
-  chapterTitle: string;
-  tagline: string;
-  heroSubtitle: string;
-  introQuote: string;
-  introParagraph: string;
-  timelineSubtitle: string;
+  dateStamp: string;
+  hero: {
+    title: string;
+    subtitle: string;
+    portraitImage: string;
+  };
+  theYear: {
+    numeral: number;
+    quote1: string;
+    quote2: string;
+    quote3: string;
+  };
   timeline: TimelineItem[];
   memories: MemoryItem[];
   values: ValueItem[];
   achievements: AchievementItem[];
   letter: {
-    title: string;
-    date: string;
-    salutation: string;
+    teaser: string;
     paragraphs: string[];
     closing: string;
     signature: string;
-    postscript?: string;
   };
+  emotionalPause: string;
   future: FutureStage[];
   music: {
     src: string;
@@ -86,36 +86,40 @@ export const initialBirthdayData: BirthdayData = {
   name: "MINH",
   fullName: "MINH TRAN",
   age: 25,
-  birthDate: "OCTOBER 14",
-  chapterTitle: "CHAPTER 25",
-  tagline: "ANOTHER YEAR. ANOTHER CHAPTER. ANOTHER VERSION OF YOURSELF.",
-  heroSubtitle: "WHERE STILLNESS MEETS AMBITION // CHAPTER 25 BEGINS NOW",
-  introQuote: "A NEW YEAR. A NEW CHAPTER.",
-  introParagraph:
-    "Another year has passed. Not everything went according to plan. But every step, every mistake, every victory has shaped the person standing here today. Stand tall, embrace the road ahead, and write the next pages with conviction.",
-  timelineSubtitle:
-    "Some moments become memories. Some memories become who we are.",
+  dateStamp: "25° / 09' / 2026",
+  hero: {
+    title: "HAPPY BIRTHDAY",
+    subtitle: "CHAPTER 25",
+    portraitImage:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1800&q=85"
+  },
+  theYear: {
+    numeral: 25,
+    quote1: "ANOTHER YEAR.",
+    quote2: "ANOTHER CHAPTER.",
+    quote3: "ANOTHER VERSION OF YOU."
+  },
   timeline: [
     {
       id: "t1",
       year: "2021",
       age: 20,
       title: "THE BEGINNING",
-      tagline: "Setting out into the unknown",
+      tagline: "First solitary steps",
       description:
-        "Leaving the comfort zone behind. The quiet realization that potential means nothing without the courage to take the first solitary stride.",
+        "Stepping into the unknown with nothing but determination and an unbending willingness to learn.",
       image:
         "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
-      location: "SAIGON / HOME"
+      location: "SAIGON"
     },
     {
       id: "t2",
       year: "2022",
       age: 21,
       title: "THE TURNING POINT",
-      tagline: "When standards became non-negotiable",
+      tagline: "Defining the standard",
       description:
-        "Discovering the craft and finding the discipline to stay up when the city sleeps. Learning that greatness is built in unseen repetitions.",
+        "Discovering the craft in late-night sessions. Realizing that greatness is forged when nobody is watching.",
       image:
         "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
       location: "THE STUDIO"
@@ -125,100 +129,105 @@ export const initialBirthdayData: BirthdayData = {
       year: "2023",
       age: 22,
       title: "THE CHALLENGE",
-      tagline: "Tested by friction and fire",
+      tagline: "Tested by friction",
       description:
-        "A year of friction and resilience. When unexpected hurdles arrived, you didn't flinch. You proved that pressure only crystallizes character.",
+        "Faced with adversity, you proved that pressure does not break character—it crystallizes it.",
       image:
         "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
-      location: "NORTHERN HIGHLANDS"
+      location: "HIGHLANDS"
     },
     {
       id: "t4",
       year: "2024",
       age: 23,
       title: "THE GROWTH",
-      tagline: "Expanding horizons and building brotherhood",
+      tagline: "Unshakeable brotherhood",
       description:
-        "Expanding horizons, leading projects, and cultivating bonds that cannot be broken. Walking into rooms with quiet confidence.",
+        "Cultivating alliances that matter. Moving forward with quiet posture and elevated vision.",
       image:
         "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
-      location: "COASTAL EXPEDITIONS"
+      location: "COASTLINE"
     },
     {
       id: "t5",
       year: "2025",
       age: 24,
-      title: "THE NEXT STEP",
-      tagline: "Mastery and uncompromised vision",
+      title: "THE MASTERY",
+      tagline: "Solid foundation",
       description:
-        "The foundation is solid. The compass is steady. You stand at the threshold of mastery, ready to conquer higher altitudes with those who matter most.",
+        "Walking into rooms with calm presence. The standard is established; the trajectory is unmistakable.",
       image:
-        "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?auto=format&fit=crop&w=1200&q=80",
-      location: "TOKYO SKYLINE"
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
+      location: "TOKYO"
+    },
+    {
+      id: "t6",
+      year: "2026",
+      age: 25,
+      title: "THE HORIZON",
+      tagline: "Unwritten greatness",
+      description:
+        "Standing at the threshold of a new chapter with the strength to lead and the wisdom to stay humble.",
+      image:
+        "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80",
+      location: "GLOBAL SKYLINE"
     }
   ],
   memories: [
     {
       id: "m1",
-      title: "NIGHT RUNS & CONVERSATIONS",
-      category: "BROTHERHOOD",
+      title: "MIDNIGHT CLARITY",
       year: "2025",
+      location: "CENTRAL HIGHWAY",
       image:
-        "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80",
-      caption: "Late hours, fast engines, and honest conversations that keep our standards elevated.",
-      aspectRatio: "landscape"
+        "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1400&q=85",
+      caption: "Late hours, empty roads, and unfiltered conversations about what truly matters.",
+      scale: "large",
+      offset: "center"
     },
     {
       id: "m2",
       title: "ATOP THE RIDGELINE",
-      category: "ADVENTURE",
       year: "2024",
+      location: "ALPINE RIDGE",
       image:
-        "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1200&q=80",
-      caption: "Looking out across misty peaks at sunrise. Perspective gained only by climbing.",
-      aspectRatio: "portrait"
+        "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=1000&q=80",
+      caption: "Perspective gained only after enduring the incline.",
+      scale: "medium",
+      offset: "top"
     },
     {
       id: "m3",
-      title: "THE OBSESSION WITH CRAFT",
-      category: "FOCUS",
+      title: "PRECISION & CRAFT",
       year: "2024",
+      location: "THE ATELIER",
       image:
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
-      caption: "Dressed sharp, moving purposefully. Precision in every small detail.",
-      aspectRatio: "landscape"
+        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80",
+      caption: "Excellence in the invisible repetitions.",
+      scale: "small",
+      offset: "bottom"
     },
     {
       id: "m4",
-      title: "MIDNIGHT URBAN REEL",
-      category: "MILESTONES",
+      title: "THE INNER CIRCLE",
       year: "2025",
+      location: "SHIBUYA DISTRICT",
       image:
-        "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80",
-      caption: "Reflections of neon and concrete. A cinematic frame of a night we won't forget.",
-      isVideo: true,
-      videoSrc: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      aspectRatio: "landscape"
+        "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85",
+      caption: "The ones who stood in the trenches with you.",
+      scale: "large",
+      offset: "center"
     },
     {
       id: "m5",
-      title: "THE INNER CIRCLE",
-      category: "BROTHERHOOD",
-      year: "2023",
-      image:
-        "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80",
-      caption: "Laughter, loyalty, and iron-clad trust. The brothers who showed up when it mattered.",
-      aspectRatio: "square"
-    },
-    {
-      id: "m6",
       title: "DISCIPLINE IN SILENCE",
-      category: "FOCUS",
       year: "2025",
+      location: "IRON VAULT",
       image:
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
-      caption: "Where physical grit meets mental fortitude. Early mornings that forge character.",
-      aspectRatio: "portrait"
+        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+      caption: "Where willpower overrides exhaustion.",
+      scale: "medium",
+      offset: "bottom"
     }
   ],
   values: [
@@ -226,49 +235,49 @@ export const initialBirthdayData: BirthdayData = {
       id: "v1",
       number: "01",
       title: "COURAGE",
-      subtitle: "Walking into uncertainty",
-      description: "For choosing to move forward even when the path is uncertain and the destination lies shrouded in fog.",
-      iconName: "courage"
+      subtitle: "The First Stride",
+      description:
+        "For choosing to move forward even when the path is uncertain and the destination lies shrouded in fog."
     },
     {
       id: "v2",
       number: "02",
       title: "DISCIPLINE",
-      subtitle: "The anchor of greatness",
-      description: "For continuing when motivation disappears and doing the necessary work without seeking applause.",
-      iconName: "discipline"
+      subtitle: "The Unseen Anchor",
+      description:
+        "For continuing when motivation disappears and doing the necessary work without demanding applause."
     },
     {
       id: "v3",
       number: "03",
       title: "LOYALTY",
-      subtitle: "The unbreakable bond",
-      description: "For the people who stayed, the brothers in the trenches, and the commitments kept without condition.",
-      iconName: "loyalty"
+      subtitle: "The Sacred Pact",
+      description:
+        "For the people who stayed, the brothers in the trenches, and the commitments honored without compromise."
     },
     {
       id: "v4",
       number: "04",
       title: "AMBITION",
-      subtitle: "Without a ceiling",
-      description: "For the dreams that still have no ceiling, relentlessly expanding what is possible for yourself and those you protect.",
-      iconName: "ambition"
+      subtitle: "Without A Ceiling",
+      description:
+        "For the dreams that refuse to be contained, relentlessly expanding what is possible for your circle."
     },
     {
       id: "v5",
       number: "05",
       title: "FAMILY",
-      subtitle: "The true compass",
-      description: "For the people who make the journey meaningful and give substance to every victory earned.",
-      iconName: "family"
+      subtitle: "The True North",
+      description:
+        "For the people who make the journey meaningful and give substance to every victory earned."
     },
     {
       id: "v6",
       number: "06",
       title: "DREAMS",
-      subtitle: "The unwritten future",
-      description: "For everything that has not happened yet. The blueprints, the adventures, and the chapters waiting to be written.",
-      iconName: "dreams"
+      subtitle: "The Unwritten Canvas",
+      description:
+        "For everything that has not happened yet. The blueprint for a legacy that outlasts the noise."
     }
   ],
   achievements: [
@@ -276,80 +285,66 @@ export const initialBirthdayData: BirthdayData = {
       id: "a1",
       value: "25",
       numericTarget: 25,
-      suffix: "",
-      label: "YEARS OF MEMORIES",
-      description: "Forged in trials, celebrations, and enduring life lessons."
+      label: "YEARS LIVED",
+      description: "Forged in character, lessons, and victories."
     },
     {
       id: "a2",
-      value: "18",
-      numericTarget: 18,
+      value: "1,000+",
+      numericTarget: 1000,
       suffix: "+",
-      label: "PLACES VISITED",
-      description: "Cities, mountain passes, and oceans crossed with conviction."
+      label: "MEMORIES",
+      description: "Shared with the few who truly know you."
     },
     {
       id: "a3",
-      value: "42",
-      numericTarget: 42,
-      suffix: "",
-      label: "GOALS ACHIEVED",
-      description: "Projects delivered, records broken, and personal standards met."
-    },
-    {
-      id: "a4",
       value: "∞",
-      suffix: "",
       label: "DREAMS REMAINING",
-      description: "The horizon is infinite. The best work is still ahead."
+      description: "The horizon is limitless. The best chapter is ahead."
     }
   ],
   letter: {
-    title: "A LETTER FOR YOU",
-    date: "OCTOBER 14 // CHAPTER 25",
-    salutation: "To Minh,",
+    teaser: "THERE IS SOMETHING I WANT TO SAY.",
     paragraphs: [
-      "There are probably many things I could say today.",
-      "But perhaps the simplest thing is this: I'm glad you made it this far.",
-      "Through the difficult days, the unexpected turns, the quiet victories, and the heavy moments nobody else saw.",
-      "You've shown what it looks like to carry responsibility with dignity, to face adversity without bitterness, and to stand as a rock for those around you.",
-      "I hope this next chapter gives you more reasons to be proud of the person you are becoming. Keep your standards high, keep your heart grounded, and never forget who you are.",
-      "Happy Birthday."
+      "There are things we don't say often enough.",
+      "Thank you for making it this far.",
+      "For every difficult day you survived without making a sound.",
+      "For every decision that quietly redirected your destiny.",
+      "For every dream you refused to abandon when others doubt.",
+      "This isn't the end of a chapter.",
+      "It's the beginning of another one."
     ],
-    closing: "With utmost respect & pride,",
-    signature: "YOUR INNER CIRCLE",
-    postscript: "P.S. Chapter 25 is yours to conquer."
+    closing: "With highest respect & unwavering pride,",
+    signature: "YOUR INNER CIRCLE"
   },
+  emotionalPause: "AND THERE IS STILL SO MUCH AHEAD.",
   future: [
     {
       id: "f1",
       phase: "NOW",
       title: "THE FOUNDATION",
-      period: "PRESENT DAY // AGE 25",
-      goal: "Cement habits, deepen mastery, and operate from unshakeable inner peace.",
+      goal: "Deepen mastery, eliminate noise, and operate from unwavering inner stillness.",
       dream: "Build something of lasting significance with true craftsmen.",
-      destination: "Kyoto & High Alpine Passes",
-      personalMessage: "Anchor yourself in discipline. The habits of today dictate the legacy of tomorrow."
+      destination: "High Mountain Passes & Quiet Horizons",
+      personalMessage: "Anchor yourself in discipline. Today dictates tomorrow."
     },
     {
       id: "f2",
       phase: "NEXT",
       title: "THE EXPANSION",
-      period: "THE COMING YEARS // 2026—2028",
-      goal: "Multiply influence, lead bigger ventures, and create freedom for loved ones.",
-      dream: "Establish a venture that outlives the noise of the moment.",
-      destination: "Scandinavian Coastlines & Dolomites",
-      personalMessage: "Do not fear the weight of greater responsibility. You were built to carry it."
+      goal: "Lead bigger endeavors, multiply impact, and create freedom for those you love.",
+      dream: "Establish a venture that outlives the temporary trends.",
+      destination: "The Dolomites & Scandinavian Fjords",
+      personalMessage: "Carry the weight with dignity. You were built for this altitude."
     },
     {
       id: "f3",
-      phase: "FUTURE",
+      phase: "SOMEDAY",
       title: "THE LEGACY",
-      period: "THE HORIZON // CHAPTERS AHEAD",
-      goal: "Live with zero regrets, uncompromising loyalty, and total freedom.",
-      dream: "Stand on the summit with the brotherhood and say: 'We did it right.'",
-      destination: "The Infinite Horizon",
-      personalMessage: "The years will pass regardless. Ensure each one leaves a mark that cannot be erased."
+      goal: "Live with zero regrets, uncompromised loyalty, and complete freedom.",
+      dream: "Stand on the summit with the brotherhood and know we lived with honor.",
+      destination: "The Open Horizon",
+      personalMessage: "The years will pass regardless. Ensure each one leaves an indelible mark."
     }
   ],
   music: {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, RotateCcw, Check, Sparkles, SlidersHorizontal, Eye } from "lucide-react";
+import { X, RotateCcw, Check, SlidersHorizontal, Eye } from "lucide-react";
 import { BirthdayData, initialBirthdayData } from "../../data/birthdayData";
 
 interface DataCustomizerProps {
@@ -24,10 +24,10 @@ export const DataCustomizer: React.FC<DataCustomizerProps> = ({
 
   const handleChangeField = (field: keyof BirthdayData, value: any) => {
     const updated = { ...formData, [field]: value };
-    // Auto-update chapter title if age changes
     if (field === "age") {
       const ageNum = parseInt(value, 10) || 25;
-      updated.chapterTitle = `CHAPTER ${ageNum}`;
+      updated.hero = { ...updated.hero, subtitle: `CHAPTER ${ageNum}` };
+      updated.theYear = { ...updated.theYear, numeral: ageNum };
     }
     setFormData(updated);
   };
@@ -51,24 +51,24 @@ export const DataCustomizer: React.FC<DataCustomizerProps> = ({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Customize Birthday Experience"
-      className="fixed inset-0 z-[1200] flex justify-end bg-black/80 backdrop-blur-sm transition-opacity"
+      aria-label="Customize Chapter"
+      className="fixed inset-0 z-[1800] flex justify-end bg-black/80 backdrop-blur-sm select-none"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg h-full bg-[#0b0b0f] border-l border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto shadow-2xl"
+        className="w-full max-w-lg h-full bg-[#090a0d] border-l border-white/10 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between pb-6 border-b border-white/10">
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="w-5 h-5 text-[#d4af37]" />
+            <SlidersHorizontal className="w-4 h-4 text-white" />
             <div>
               <h3 className="font-cinematic text-lg text-white font-bold tracking-wider uppercase">
-                PERSONALIZE EXPERIENCE
+                PERSONALIZE FILM
               </h3>
-              <p className="font-tech text-[10px] text-zinc-400 tracking-wider uppercase">
-                EDIT RECIPIENT & CHAPTER DETAILS
+              <p className="font-tech text-[10px] text-zinc-500 tracking-wider uppercase">
+                EDIT RECIPIENT & STORY DETAILS
               </p>
             </div>
           </div>
@@ -86,36 +86,36 @@ export const DataCustomizer: React.FC<DataCustomizerProps> = ({
         <form id="customizer-form" onSubmit={handleSave} className="py-6 space-y-6">
           {/* Recipient First Name */}
           <div>
-            <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-              RECIPIENT NAME (FIRST NAME)
+            <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
+              RECIPIENT NAME
             </label>
             <input
               type="text"
               required
               value={formData.name}
               onChange={(e) => handleChangeField("name", e.target.value.toUpperCase())}
-              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-cinematic tracking-wider text-base focus:border-[#d4af37] focus:outline-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-cinematic tracking-wider text-base focus:border-white focus:outline-none"
             />
           </div>
 
           {/* Full Name */}
           <div>
-            <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
+            <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
               FULL NAME (FOR CREDITS)
             </label>
             <input
               type="text"
               value={formData.fullName}
               onChange={(e) => handleChangeField("fullName", e.target.value.toUpperCase())}
-              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-cinematic tracking-wider text-sm focus:border-[#d4af37] focus:outline-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-cinematic tracking-wider text-sm focus:border-white focus:outline-none"
             />
           </div>
 
-          {/* Age */}
+          {/* Age & Chapter Subtitle */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-                TURNING AGE
+              <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
+                AGE
               </label>
               <input
                 type="number"
@@ -124,88 +124,57 @@ export const DataCustomizer: React.FC<DataCustomizerProps> = ({
                 required
                 value={formData.age}
                 onChange={(e) => handleChangeField("age", parseInt(e.target.value, 10) || 25)}
-                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-cinematic tracking-wider text-base focus:border-[#d4af37] focus:outline-none"
+                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-cinematic tracking-wider text-base focus:border-white focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-                CHAPTER TITLE
+              <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
+                CHAPTER BADGE
               </label>
               <input
                 type="text"
-                value={formData.chapterTitle}
-                onChange={(e) => handleChangeField("chapterTitle", e.target.value.toUpperCase())}
-                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-tech tracking-wider text-xs focus:border-[#d4af37] focus:outline-none"
+                value={formData.hero.subtitle}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    hero: { ...formData.hero, subtitle: e.target.value.toUpperCase() }
+                  })
+                }
+                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-tech tracking-wider text-xs focus:border-white focus:outline-none"
               />
             </div>
           </div>
 
-          {/* Hero Subtitle */}
+          {/* Portrait Image URL */}
           <div>
-            <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-              HERO SUBTITLE
+            <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
+              HERO PORTRAIT IMAGE (URL)
             </label>
             <input
               type="text"
-              value={formData.heroSubtitle}
-              onChange={(e) => handleChangeField("heroSubtitle", e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-body text-xs focus:border-[#d4af37] focus:outline-none"
-            />
-          </div>
-
-          {/* Personal Letter Salutation */}
-          <div>
-            <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-              LETTER SALUTATION
-            </label>
-            <input
-              type="text"
-              value={formData.letter.salutation}
+              value={formData.hero.portraitImage}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  letter: { ...formData.letter, salutation: e.target.value }
+                  hero: { ...formData.hero, portraitImage: e.target.value }
                 })
               }
-              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-body text-xs focus:border-[#d4af37] focus:outline-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-body text-xs focus:border-white focus:outline-none"
             />
           </div>
 
-          {/* Letter Closing & Signature */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-                LETTER SIGNATURE
-              </label>
-              <input
-                type="text"
-                value={formData.letter.signature}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    letter: { ...formData.letter, signature: e.target.value.toUpperCase() }
-                  })
-                }
-                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-cinematic text-xs focus:border-[#d4af37] focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block font-tech text-xs text-zinc-300 uppercase tracking-widest mb-1.5 font-semibold">
-                LETTER DATE
-              </label>
-              <input
-                type="text"
-                value={formData.letter.date}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    letter: { ...formData.letter, date: e.target.value.toUpperCase() }
-                  })
-                }
-                className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/15 text-white font-tech text-xs focus:border-[#d4af37] focus:outline-none"
-              />
-            </div>
+          {/* Date Stamp */}
+          <div>
+            <label className="block font-tech text-xs text-zinc-400 uppercase tracking-widest mb-1.5 font-semibold">
+              DATE STAMP
+            </label>
+            <input
+              type="text"
+              value={formData.dateStamp}
+              onChange={(e) => handleChangeField("dateStamp", e.target.value.toUpperCase())}
+              className="w-full px-4 py-2.5 rounded-lg bg-zinc-900 border border-white/10 text-white font-tech text-xs focus:border-white focus:outline-none"
+            />
           </div>
         </form>
 
@@ -223,17 +192,17 @@ export const DataCustomizer: React.FC<DataCustomizerProps> = ({
           <button
             type="submit"
             form="customizer-form"
-            className="px-6 py-2.5 rounded-lg bg-[#d4af37] hover:bg-[#c29e2f] text-black font-tech text-xs tracking-widest uppercase font-bold transition-all shadow-lg flex items-center gap-2"
+            className="px-6 py-2.5 rounded-lg bg-white hover:bg-zinc-200 text-black font-tech text-xs tracking-widest uppercase font-bold transition-all shadow-lg flex items-center gap-2"
           >
             {savedToast ? (
               <>
                 <Check className="w-4 h-4" />
-                <span>APPLIED!</span>
+                <span>SAVED!</span>
               </>
             ) : (
               <>
                 <Eye className="w-4 h-4" />
-                <span>APPLY & PREVIEW</span>
+                <span>PREVIEW</span>
               </>
             )}
           </button>
